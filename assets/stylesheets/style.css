@@ -81,7 +81,7 @@ th, td {
 
 table {
     border-collapse: collapse;
-    margin-bottom: 10px;
+    margin: 1.5rem auto;
 }
 
 th {
@@ -95,6 +95,16 @@ th {
 }
 
 .captioned-img {
+    text-align: center;
+    font-style: italic;
+}
+
+.centered-video {
+    display: block;
+    margin: 30px auto 5px auto;
+}
+
+.captioned-video {
     text-align: center;
     font-style: italic;
 }
