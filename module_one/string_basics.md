@@ -178,6 +178,84 @@ on the opening delimiter. Keep these formatting rules in mind when working with 
 Additionally, multiline string literals can be turned into other kinds of literals like f-string literals in the 
 same way regular string literals can.
 
+### String Literals and Concatenation
+
+Python automatically concatenates adjacent string literals without the need for the addition operator (`+`). This is
+because Python will turn the adjacent string literals into one big string literal during compilation. The addition
+operator is only needed when combining strings at runtime. The following code demonstrates concatenation of string
+literals.
+
+```python
+combined_literal = "hello" "world"
+print(combined_literal)
+```
+
+The above code outputs the following to the console.
+
+```
+helloworld
+```
+
+This can be done across multiple lines by surrounding the string literals in parentheses. This is similar to using a
+multiline string literal, but without any formatting.
+
+```python
+paragraph = (
+    "This is the start of my paragraph."
+    "Here is the second line of my paragraph. It's not a very interesting line."
+    "Maybe this third line will help."
+)
+print(paragraph)
+```
+
+The above code outputs the following to the console.
+
+```
+This is the start of my paragraph.Here is the second line of my paragraph. It's not a very interesting line.Maybe this third line will help.
+```
+
+This paragraph doesn't look much like a paragraph. Since multiline string literals are the only kind of literal which
+remembers formatting, we need to use escape characters if we want that with concatenated string literals.
+
+```python
+paragraph = (
+    "This is the start of my paragraph.\n"
+    "Here is the second line of my paragraph. It's not a very interesting line.\n"
+    "Maybe this third line will help."
+)
+print(paragraph)
+```
+
+The above code outputs the following to the console.
+
+```
+This is the start of my paragraph.
+Here is the second line of my paragraph. It's not a very interesting line.
+Maybe this third line will help.
+```
+
+Whether you make use of concatenated string literals or multiline string literals is up to you! It's also worth mentioning
+that it doesn't matter what kind of string literal is used. All string literals can be concatenated with all other string
+literals. The following code demonstrates concatenating a multiline string literal with an f-string literal.
+
+```python
+fav_num = 7
+paragraph = (
+    """Here is my cool paragraph.
+It works properly because it uses a multiline string literal."""
+    f"\nI know you didn't ask, but my favorite number is {fav_num}."
+)
+print(paragraph)
+```
+
+The above code outputs the following to the console.
+
+```
+Here is my cool paragraph.
+It works properly because it uses a multiline string literal.
+I know you didn't ask, but my favorite number is 7.
+```
+
 ## String Methods
 
 ### `len` Method and Indexing
