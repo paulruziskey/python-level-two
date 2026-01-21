@@ -173,9 +173,75 @@ messages usually aren't readable to non-programmers. Imagine if your parent/guar
 it; would they understand what they did wrong in as unambiguous a way as possible? With this in mind, it's often better 
 to handle errors separately if it means your program outputs messages that are more readable.
 
-Except-clauses are by far the most important clause that can be added to a try-statement since try-statements are 
-used to handle errors. However, there are two other clauses which can be added. They are detailed in the following two 
-sections.
+### The General Except-clause
+
+It's possible to write except-clauses that handle all types of errors. This is because Python data types are built from 
+other data types. For error types, they are all based on Python's `Exception` type. The following code demonstrates 
+handling all errors with the `Exception` type.
+
+```python
+try:
+    num = int(input("Enter an integer: "))
+except Exception as ex:
+    print(f"No more crashing, but the following error occurred: {ex}")
+```
+
+The above code outputs the following to the console.
+
+```text
+Enter an integer: apple
+No more crashing, but the following error occurred: invalid literal for int() with base 10: 'apple'
+```
+
+This is a bit dangerous because any errors that are raised in the try-statement will be handled by the except-clause. 
+This means that errors we might not have thought about could be handled without us realizing! For this reason, we only 
+want to handle the most specific kinds of errors we can. There are times, however, when we want to do something before 
+an error crashes our program. That is when the general except-clause is used. This is typically done for logging 
+purposes. The best practice is to make sure that general except-clauses return the program to a known-good state, or 
+that they re-raise the raised error. The following code demonstrates the use of the `raise` keyword to re-raise the 
+raised error in an except-clause.
+
+```python
+try:
+    num = int(input("Enter an integer: "))
+    print(f"3 // {num} = {3 // num}")
+except ValueError:
+    print("Bad input")
+except Exception as ex:
+    print(f"The following error occurred: {ex}")
+    raise
+```
+
+The above code outputs the following to the console.
+
+```text
+Enter an integer: 0
+The following error occurred: division by zero
+Traceback (most recent call last):
+  File "/project/src/main.py", line 40, in <module>
+    print(f"3 // {num} = {3 // num}")
+                          ~~^^~~~~
+ZeroDivisionError: division by zero
+```
+
+It's important that the general except-clause go last since the except-clauses are checked in the order they're 
+declared. Since the general except-clause handles all errors, any more specific clauses that come after it won't run!
+
+### The Bare Except-clause
+
+It's possible to write a bare except-clause in Python. The bare except-clause is an except-clause without an error type 
+declared. The following code demonstrates this.
+
+```python
+try:
+    num = int(input("Enter an integer: "))
+except:
+    print("I handle anything")
+```
+
+This clause handles even more than the general except-clause, which is why it should ***never be used***. If you use 
+one in your code, most IDEs will issue a warning advising you to avoid using the bare except-clause. This section is 
+purely for information purposes.
 
 ### The Else-clause
 
