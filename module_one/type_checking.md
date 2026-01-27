@@ -124,6 +124,58 @@ One other bonus of adding type annotations is that it can help IDEs like PyCharm
 sense. If PyCharm knows a particular function parameter is a string, it can offer string methods when offering 
 autocompletion options!
 
+#### Writing Basic Type Annotations
+
+All data types can be used as type annotations. This includes the following list of types we've interacted with so far.
+
+* `bool`
+* `int`
+* `float`
+* `str`
+* `list`
+* `Turtle`
+
+Let's say we need to annotate a function that takes in an integer and a boolean and returns a string. That would look 
+like the following.
+
+```python
+def foo(num: int, is_something: bool) -> str:
+   ...
+```
+
+All of the above data types are used like this when they are part of a type annotation except for `list` which is a bit 
+more complicated. Since lists store values of a particular data type, we need to annotate that inner type as well. We 
+do this by putting the inner type in square brackets after the `list` type, and we do this for all types which store an 
+instance or instances of another type. Let's say we need to annotate a function that returns a list of integers. That 
+would look like the following.
+
+```python
+def bar() -> list[int]:
+   ...
+```
+
+As we learned in **Python Level One**, all functions return something. If we don't explicitly return something from a 
+function, it will automatically return `None`. This means that functions that effectively return "nothing" are 
+returning `None`. How do we annotate this? We can use `None` as an annotation, too! The following code shows type 
+annotations on a function that doesn't return anything meaningful.
+
+```python
+def baz() -> None:
+   ...
+```
+
+`None` is actually a special case since we can't do this with other values in the same way. For example, the following 
+type annotations are invalid.
+
+```python
+def bad_annotations(always_true: True) -> 0:
+   ...
+```
+
+Unfortunately, as discussed earlier, Python won't care if type annotations are invalid since it ignores them when 
+running code. Luckily for us, there is a way to get errors when type mismatches come up in our code! The next section 
+details how.
+
 ### Third-party Static-analysis Tools
 
 Although the type-mismatch warnings we get after annotating types are much better than getting no indications that 
@@ -142,7 +194,7 @@ don't care about.
 To install `mypy` for a Python project open in PyCharm, first open the integrated terminal by clicking the icon at 
 the bottom left.
 
-![PyCharm terminal location](../assets/images/module_one/pycharm_terminal_loc.jpg)
+![PyCharm terminal location](../../assets/images/level_two/module_one/pycharm_terminal_loc.jpg)
 
 This can also be done by opening your computer's terminal and changing the directory to your project's directory.
 
@@ -163,30 +215,30 @@ run our code.
 
 Click on the vertical ellipsis near the run button, then select the `Run with Parameters...` option.
 
-![Creating project configuration](../assets/images/module_one/config_dropdown.png)
+![Creating project configuration](../../assets/images/level_two/module_one/config_dropdown.png)
 
 A popup will come up with a bunch of information already filled out. All we need to do is add `mypy` as a 
 before-launch task.
 
 Click on the `Modify options` dropdown, then select `Add before launch task`.
 
-![Add before-launch task](../assets/images/module_one/add_before_launch_task.png)
+![Add before-launch task](../../assets/images/level_two/module_one/add_before_launch_task.png)
 
 Another popup will come up. Select `Run External Tool`.
 
-![Run external tool](../assets/images/module_one/run_external_tool.png)
+![Run external tool](../../assets/images/level_two/module_one/run_external_tool.png)
 
 This will open another popup. Which says that no external tools have been configured. Click the `+` icon at the top 
 of the popup.
 
-![Add new external tool](../assets/images/module_one/add_external_tool.png)
+![Add new external tool](../../assets/images/level_two/module_one/add_external_tool.png)
 
 A popup will open where we can enter information to create an external-tool configuration. First, enter "mypy" in the 
 `Name` field. We now need to add information to the fields in the `Tool Settings` section. Luckily, PyCharm has 
 predefined *macros* which are like variables that hold the correct information for the current project. Click the 
 `+` icon at the right of the `Program` field.
 
-![Inserting macro](../assets/images/module_one/insert_macro.png)
+![Inserting macro](../../assets/images/level_two/module_one/insert_macro.png)
 
 Scroll through the options and double-click on the `PyInterpreterDirectory` macro. This will insert it into the 
 `Program` field with dollar signs around it. You should then add "/mypy" after the last dollar sign. This field 
@@ -203,17 +255,17 @@ Lastly, we need to specify a value for the `Working directory` field. This speci
 files if it needs to. For this, select the `+` icon to add the `Projectpath` macro. The following image shows the 
 configuration with everything entered properly.
 
-![Final mypy config](../assets/images/module_one/mypy_config.png)
+![Final mypy config](../../assets/images/level_two/module_one/mypy_config.png)
 
 Click the `OK` button to add the configuration for `mypy`. Now we need to select it and add it to the project by 
 highlighting it in the tools popup and clicking `OK`.
 
-![Selecting mypy](../assets/images/module_one/select_mypy.png)
+![Selecting mypy](../../assets/images/level_two/module_one/select_mypy.png)
 
 You should now see `mypy` listed in the `Before launch` section at the top of the run configuration. You can now 
 click the `Run` button to add the run configuration and run it!
 
-![Final run configuration](../assets/images/module_one/final_run_config.png)
+![Final run configuration](../../assets/images/level_two/module_one/final_run_config.png)
 
 You will now see a `mypy` tab open. This tab shows output from `mypy`. It will take a bit of time for mypy to run on 
 the first run of a project, so it will take a bit of time before another tab opens for the output of your code. If 
