@@ -80,4 +80,7 @@ The above code outputs the following to the console.
 Integer: 4
 ```
 
-Anything that can be used as a type annotation can be used in an `isinstance` check. This includes type aliases!
+It's important to keep in mind that the `isinstance` function only works with concrete types. This means that we can't 
+use `isinstance` to check if a value is an instance of a type that's part of a type union. We also can't use
+`isinstance` with type aliases. This isn't usually a problem, but it's important to be aware of the limitations of
+`isinstance`.
