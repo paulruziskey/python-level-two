@@ -1,5 +1,21 @@
 # More about Types
 
+## The `typing` Module
+
+Python has a module which contains some useful type annotations and type-annotation features called `typing`. Python 
+has been moving things out of this module and putting them in other modules where they belong more, but there are still 
+a few things we use from this module. The most important type annotation we get from this module is called `Final`, and 
+it's used to declare that a variable shouldn't be allowed to be reassigned after it's declared. We typically use this 
+annotation on global constants so their types match their roles as constants.
+
+```python
+from typing import Final
+
+GLOBAL_CONSTANT: Final[int] = 17
+```
+
+If we ever write code that reassigns a final variable, `mypy` will emit en error, and our code won't compile.
+
 ## Declaring More than One Type
 
 Sometimes, we want to write functions that can return more than one data type. Sometimes, we want to declare 
