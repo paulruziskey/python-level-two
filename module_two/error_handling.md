@@ -384,7 +384,8 @@ Done getting input
 While errors aren't fun to get, they're very helpful because they tell us exactly what went wrong and where it 
 happened. Sometimes they can be a little cryptic, but they're still helpful. In Python, errors represent bugs in our 
 code 95 percent of the time, and our job is to rewrite our code to prevent them from being raised. The other five 
-percent of the time, however, they signal an event, and thus require no handling.
+percent of the time, however, they signal an event, and thus require handling since we can't prevent them from being 
+raised.
 
 One such event may be Python's failure to convert an input to a specific type. For example, Python fails to convert 
 floating-point numbers to integers. What if we wanted to accept both integers and floating-point numbers from a user, 
@@ -421,10 +422,18 @@ Enter a number: apple
 Invalid number
 ```
 
-Firstly, `user_num` needs its type specified since floats are not assignable to integer variables. Secondly, we can see 
-that the code is a little long for what it is, and it's not immediately clear that the `ValueError` from the `int` 
-function is being ignored to try converting `user_input` to a float. Additionally, we like to avoid indenting code when 
-we can, especially when it's part of the main code. We can, therefore, rewrite the code a bit using the `pass` keyword.
+One thing to note about this code is that `user_num` needs its type specified since floats are not assignable to 
+integer variables.
+
+This code is a little long for what it is, and it's not immediately clear that the `ValueError` from the `int` function 
+is being ignored to try converting `user_input` to a float. Additionally, we like to avoid indenting code when we can, 
+especially when it's part of the main code, and especially when the indented code is another try-except-block. Writing 
+good code isn't just about making sure the code works as intended, it's also about writing code that *reads* well. We 
+use the term *semantics* to refer to the meaning of code the way it's written rather than based on what it does. The 
+semantics of writing a try-except-block as part of the code handling an error that was already raised is odd 
+considering it doesn't seem like potentially raising another error is a good way to handle an existing error.
+
+We can improve the semantics by using the `pass` keyword. The reason for using a function this time is explained below.
 
 ```python
 def get_number() -> int | float | None:
@@ -436,24 +445,27 @@ def get_number() -> int | float | None:
     try:
         return float(user_input)
     except ValueError:
-        print("Invalid number")
+        pass
     return None
 
 
 user_num = get_number()
 ```
 
-This code has the same behavior, but it's clear that the `ValueError` is being ignored since blocks with the `pass` 
-keyword are intentionally left empty. Since the second try-except-block was no longer nested in the first 
-except-clause, the code needed to be put inside a function so the second try-except-block wouldn't run if the integer 
-conversion was successful. This is still a lot of code for what it is. This is where Python's with-statement can help!
+This code has the same behavior, aside from the printing, but it's clear that the `ValueError` is being ignored since 
+the `pass` keyword is used semantically to indicate that a code block is intentionally left blank. Since the second 
+try-except-block is no longer nested in the first except-clause, the code needed to be put inside a function so the 
+second try-except-block wouldn't run if the integer conversion was successful.
+
+This is still a lot of code for what it is, especially with the addition of lines that literally do nothing. This is 
+where Python's *with-statement* can help!
 
 ### With-statements
 
 With-statements are a way to apply a context to a block of code. We won't fully learn about them now, but we'll learn 
-about how they can be used to suppress errors. In the above code, we wanted to suppress the `ValueError` from the `int` 
-function since it meant that the code should attempt a float conversion instead. We can do this with a with-statement 
-and the `contextlib.suppress` function.
+about how they can be used to suppress errors. In the above code, we wanted to suppress the `ValueError` errors from 
+the `int` and `float` functions since those errors mean the code should continue trying other conversions, if 
+available, or return `None`. We can do this with a with-statement and the `contextlib.suppress` function.
 
 ```python
 import contextlib
@@ -463,17 +475,15 @@ def get_number() -> int | float | None:
     user_input = input("Enter a number: ")
     with contextlib.suppress(ValueError):
         return int(user_input)
-    try:
+    with contextlib.suppress(ValueError):
         return float(user_input)
-    except ValueError:
-        print("Invalid number")
     return None
 
 
 user_num = get_number()
 ```
 
-The above code works the same way as it did before, but this time, we didn't need the try-except-block. The 
-with-statement is applying a context to its code block where `ValueError` is suppressed. If a `ValueError` is raised 
-within this context, block will simply be exited, but other raised errors will still cause the program to crash. If an 
-error needs to be suppressed, this is how it should be done.
+The above code works the same way as it did before, but this time, we didn't need the try-except-block because the 
+with-statement is setting it up for us. The with-statement is applying a context to its code block where `ValueError` 
+is suppressed. If a `ValueError` is raised within this context, block will simply be exited, but other raised errors 
+will still cause the program to crash. If an error needs to be suppressed, this is how it should be done.
