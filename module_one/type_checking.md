@@ -194,7 +194,7 @@ don't care about.
 To install `mypy` for a Python project open in PyCharm, first open the integrated terminal by clicking the icon at 
 the bottom left.
 
-![PyCharm terminal location](../../assets/images/level_two/module_one/pycharm_terminal_loc.jpg)
+![PyCharm terminal location](../assets/images/module_one/pycharm_terminal_loc.jpg)
 
 This can also be done by opening your computer's terminal and changing the directory to your project's directory.
 
@@ -215,30 +215,30 @@ run our code.
 
 Click on the vertical ellipsis near the run button, then select the `Run with Parameters...` option.
 
-![Creating project configuration](../../assets/images/level_two/module_one/config_dropdown.png)
+![Creating project configuration](../assets/images/module_one/config_dropdown.png)
 
 A popup will come up with a bunch of information already filled out. All we need to do is add `mypy` as a 
 before-launch task.
 
 Click on the `Modify options` dropdown, then select `Add before launch task`.
 
-![Add before-launch task](../../assets/images/level_two/module_one/add_before_launch_task.png)
+![Add before-launch task](../assets/images/module_one/add_before_launch_task.png)
 
 Another popup will come up. Select `Run External Tool`.
 
-![Run external tool](../../assets/images/level_two/module_one/run_external_tool.png)
+![Run external tool](../assets/images/module_one/run_external_tool.png)
 
 This will open another popup. Which says that no external tools have been configured. Click the `+` icon at the top 
 of the popup.
 
-![Add new external tool](../../assets/images/level_two/module_one/add_external_tool.png)
+![Add new external tool](../assets/images/module_one/add_external_tool.png)
 
 A popup will open where we can enter information to create an external-tool configuration. First, enter "mypy" in the 
 `Name` field. We now need to add information to the fields in the `Tool Settings` section. Luckily, PyCharm has 
 predefined *macros* which are like variables that hold the correct information for the current project. Click the 
 `+` icon at the right of the `Program` field.
 
-![Inserting macro](../../assets/images/level_two/module_one/insert_macro.png)
+![Inserting macro](../assets/images/module_one/insert_macro.png)
 
 Scroll through the options and double-click on the `PyInterpreterDirectory` macro. This will insert it into the 
 `Program` field with dollar signs around it. You should then add "/mypy" after the last dollar sign. This field 
@@ -255,17 +255,17 @@ Lastly, we need to specify a value for the `Working directory` field. This speci
 files if it needs to. For this, select the `+` icon to add the `Projectpath` macro. The following image shows the 
 configuration with everything entered properly.
 
-![Final mypy config](../../assets/images/level_two/module_one/mypy_config.png)
+![Final mypy config](../assets/images/module_one/mypy_config.png)
 
 Click the `OK` button to add the configuration for `mypy`. Now we need to select it and add it to the project by 
 highlighting it in the tools popup and clicking `OK`.
 
-![Selecting mypy](../../assets/images/level_two/module_one/select_mypy.png)
+![Selecting mypy](../assets/images/module_one/select_mypy.png)
 
 You should now see `mypy` listed in the `Before launch` section at the top of the run configuration. You can now 
 click the `Run` button to add the run configuration and run it!
 
-![Final run configuration](../../assets/images/level_two/module_one/final_run_config.png)
+![Final run configuration](../assets/images/module_one/final_run_config.png)
 
 You will now see a `mypy` tab open. This tab shows output from `mypy`. It will take a bit of time for mypy to run on 
 the first run of a project, so it will take a bit of time before another tab opens for the output of your code. If 
